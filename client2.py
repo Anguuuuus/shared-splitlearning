@@ -29,7 +29,7 @@ import MyNet
 import socket_fun as sf
 
 ### global variable
-DAM = b'ok!'    # dammy 送信用
+DAM = b'ok!'    # dammy
 MODE = 0    # 0->train, 1->test
 
 BATCH_SIZE = 128
@@ -44,6 +44,8 @@ transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.4
 
 # download dataset
 trainset = torchvision.datasets.CIFAR10(root=root, download=True, train=True, transform=transform)
+
+# if you want to divide dataset, remove comment below.
 # indices = np.arange(len(trainset))
 # train_dataset = torch.utils.data.Subset(
 #     trainset, indices[20000:25000]
@@ -65,7 +67,7 @@ mymodel2 = MyNet.MyNet_out(NUM_CLASSES=10).to(device)
 # -------------------- connection ----------------------
 # socket establish
 host = 'localhost'
-port = 19089
+port = 8888
 ADDR = (host, port)
 start_time = time.time()
 print("timmer start!")
@@ -85,15 +87,15 @@ dammy = s.recv(4)
 epochs = 50
 lr = 0.005
 
-# 誤差関数のセット
+# set error function
 criterion = nn.CrossEntropyLoss()
 
-# 最適化関数のセット
+# set optimizer
 optimizer1 = optim.SGD(mymodel1.parameters(), lr=lr, momentum=0.9)
 optimizer2 = optim.SGD(mymodel2.parameters(), lr=lr, momentum=0.9)
 
 def train():
-    # 順伝播関数
+    # foward prop. function
     def forward_prop(MODEL, data):
 
         output = None
@@ -106,7 +108,7 @@ def train():
             output_2 = mymodel2(data)
             output = output_2
         else:
-            print("!!!!! MODELが見つかりません !!!!!")
+            print("!!!!! MODEL not found !!!!!")
 
         return output
 
@@ -114,7 +116,7 @@ def train():
     p_time_list = []
 
     for e in range(epochs):
-        print("--------------- Epoch数: ", e, " --------------")
+        print("--------------- Epoch: ", e, " --------------")
         train_loss = 0
         train_acc = 0
         val_loss = 0
@@ -130,7 +132,7 @@ def train():
 
         for data, labels in tqdm(trainloader):
 
-            # MODE送信
+            # send MODE
             sf.send_size_n_msg(MODE, s)
         
             data = data.to(device)
@@ -140,13 +142,21 @@ def train():
 
             # SEND ----------- feature data 1 ---------------
             sf.send_size_n_msg(output_1, s)
+            
+            
+            
+            
 
             ### wait for SERVER to calculate... ###
 
+            
+            
+            
+            
             # RECEIVE ------------ feature data 2 -------------
             recv_data2 = sf.recv_size_n_msg(s)
 
-            MODEL = 2   # feature data 2を受信したからMODEL=2
+            MODEL = 2   # receive feature data 2 -> MODEL=2
 
             # start forward prop. 3
             OUTPUT = forward_prop(MODEL, recv_data2)
@@ -213,9 +223,9 @@ def train():
         if e == epochs-1:
             MODE = 3 
             # sf.send_size_n_msg(MODE, s)     # client order ver.
-        else:                             # each epoch ver.
+        else:                                 # each epoch ver.
             MODE = 2    # finished test -> start next client's training
-        sf.send_size_n_msg(MODE, s)       # each epoch ver.
+        sf.send_size_n_msg(MODE, s)           # each epoch ver.
         print("Processing time: ", p_time)
         p_time_list.append(p_time)
 
@@ -237,7 +247,7 @@ def train():
 import csv
 
 def write_to_csv(train_loss_list, train_acc_list, val_loss_list, val_acc_list, p_time_list):
-    file = './results/csv/model0207.csv'
+    file = './path/.csv'
     f = open(file, 'a', newline='')
     csv_writer = csv.writer(f)
 
