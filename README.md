@@ -3,7 +3,7 @@ This repository contains a method to share intermediate layers in split learning
 
 
 ## How to run the shared-SL program
-'''
+'''powershell
 1. python server_save.py(or server.py)
 2. python client1.py
 3. python clientX.py
