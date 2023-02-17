@@ -8,7 +8,7 @@ This repository contains a method to share intermediate layers in split learning
 2. python client1.py
 3. python clientX.py
 ```
-#run 1-3 in each shells
+# run 1-3 in each shells
 
 You can choose the number of clients which participate in the network.
 In this repository, three clients are introduced.
