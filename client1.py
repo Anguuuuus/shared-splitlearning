@@ -45,7 +45,7 @@ transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.4
 # download dataset
 trainset = torchvision.datasets.CIFAR10(root=root, download=True, train=True, transform=transform)
 
-# if you divide dataset, remove comments below.
+# if you want to divide dataset, remove comments below.
 # indices = np.arange(len(trainset))
 # train_dataset = torch.utils.data.Subset(
 #     trainset, indices[0:20000]
