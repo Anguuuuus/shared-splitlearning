@@ -11,5 +11,6 @@ You can choose the number of clients which participate in the network.
 If you want to increase the clients, duplicate the client's program.
 
 -------- About server program ----------
+
 server_save.py does saving and loading trained models just in case.
 If you prefer without that processes, run server.py file.
