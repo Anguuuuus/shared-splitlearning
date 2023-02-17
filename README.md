@@ -3,9 +3,11 @@ This repository contains a method to share intermediate layers in split learning
 
 
 ## How to run the shared-SL program
+'''
 1. python server_save.py(or server.py)
 2. python client1.py
 3. python clientX.py
+'''
 
 You can choose the number of clients which participate in the network.
 In this repository, three clients are introduced.
