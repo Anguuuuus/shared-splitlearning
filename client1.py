@@ -84,15 +84,15 @@ dammy = s.recv(4)
 epochs = 50
 lr = 0.005
 
-# 誤差関数のセット
+# set error function
 criterion = nn.CrossEntropyLoss()
 
-# 最適化関数のセット
+# set optimizer
 optimizer1 = optim.SGD(mymodel1.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
 optimizer2 = optim.SGD(mymodel2.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
 
 def train():
-    # 順伝播関数
+    # forward prop. function
     def forward_prop(MODEL, data):
 
         output = None
@@ -105,7 +105,7 @@ def train():
             output_2 = mymodel2(data)
             output = output_2
         else:
-            print("!!!!! MODELが見つかりません !!!!!")
+            print("!!!!! MODEL not found !!!!!")
 
         return output
 
@@ -113,7 +113,7 @@ def train():
     p_time_list = []
 
     for e in range(epochs):
-        print("--------------- Epoch数: ", e, " --------------")
+        print("--------------- Epoch: ", e, " --------------")
         train_loss = 0
         train_acc = 0
         val_loss = 0
@@ -137,13 +137,20 @@ def train():
 
             # SEND ----------- feature data 1 ---------------
             sf.send_size_n_msg(output_1, s)
+            
+            
+            
 
             ### wait for SERVER to calculate... ###
+            
+            
+            
+            
 
             # RECEIVE ------------ feature data 2 -------------
             recv_data2 = sf.recv_size_n_msg(s)
-
-            MODEL = 2   # feature data 2を受信したからMODEL=2
+            
+            MODEL = 2   # receive feature data 2 -> MODEL=2
 
             # start forward prop. 3
             OUTPUT = forward_prop(MODEL, recv_data2)
@@ -211,9 +218,9 @@ def train():
         if e == epochs-1:
             MODE = 3
             # sf.send_size_n_msg(MODE, s)     # per client ver.
-        else:                             # per epoch ver.
+        else:                                 # per epoch ver.
             MODE = 2    # finished test -> start next client's training
-        sf.send_size_n_msg(MODE, s)       # per epoch ver.
+        sf.send_size_n_msg(MODE, s)           # per epoch ver.
         print("Processing time: ", p_time)
         p_time_list.append(p_time)
 
