@@ -29,7 +29,7 @@ import MyNet
 import socket_fun as sf
 
 ### global variable
-DAM = b'ok!'    # dammy 送信用
+DAM = b'ok!'    # dammy
 MODE = 0    # 0->train, 1->test
 
 BATCH_SIZE = 128
@@ -44,6 +44,8 @@ transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.4
 
 # download dataset
 trainset = torchvision.datasets.CIFAR10(root=root, download=True, train=True, transform=transform)
+
+# if you divide dataset, remove comments below.
 # indices = np.arange(len(trainset))
 # train_dataset = torch.utils.data.Subset(
 #     trainset, indices[0:20000]
@@ -65,10 +67,8 @@ mymodel2 = MyNet.MyNet_out(NUM_CLASSES=10).to(device)
 # -------------------- connection ----------------------
 # socket establish
 host = 'localhost'
-port = 19089
+port = 8888
 ADDR = (host, port)
-start_time = time.time()
-print("timmer start!")
 
 # CONNECT
 s = socket.socket()
