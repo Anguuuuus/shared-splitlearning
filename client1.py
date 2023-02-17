@@ -242,7 +242,7 @@ def train():
 import csv
 
 def write_to_csv(train_loss_list, train_acc_list, val_loss_list, val_acc_list, p_time_list):
-    file = './results/csv/model0207.csv'
+    file = './path/.csv'
     f = open(file, 'a', newline='')
     csv_writer = csv.writer(f)
 
