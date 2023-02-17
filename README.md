@@ -8,7 +8,10 @@ This repository contains a method to share intermediate layers in split learning
 3. python clientX.py
 
 You can choose the number of clients which participate in the network.
+In this repository, three clients are introduced.
 If you want to increase the clients, duplicate the client's program.
+
+
 
 -------- About server program ----------
 
